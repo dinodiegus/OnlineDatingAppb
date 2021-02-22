@@ -16,7 +16,8 @@ passport.deserializeUser((id,done) => {
 passport.use(new GoogleStrategy({
     clientID: keys.GoogleClientID,
     clientSecret: keys.GoogleClientSecret,
-    callbackURL: 'http://localhost:3000/auth/google/callback'
+    callbackURL: 'https://hidden-scrubland-69978.herokuapp.com/auth/google/callback'
+    // local link --> 'http://localhost:3000/auth/google/callback'
 },(accessToken,refreshToken, profile, done) => {
     console.log(profile);
     User.findOne({google:profile.id},(err,user) => {
