@@ -1,0 +1,54 @@
+<div class="container-fluid">
+{{#each singles}}
+{{#if online}}
+
+    <div class="row">
+    <div class="col-sm-3">
+        <img src="{{image}}" class="img-fluid">
+        <br>
+        
+       <h4 class="singles-icons">
+            <a href="/userProfile/{{_id}}">
+            <button class="btn btn-outline-primary"><i class="fa fa-address-book"></i></button>
+            </a>
+        
+            <a href="/startChat/{{_id}}">
+            <button class="btn btn-outline-info"><i class="fa fa-commenting"></i></button>
+            </a>
+
+            <i class="fa fa-circle green right">ONLINE</i>
+       </h4>
+        
+        
+    </div>
+</div>
+
+{{else}}
+
+    <div class="row">
+    <div class="col-sm-3">
+        <img src="{{image}}" class="img-fluid" >
+        <br>
+        
+        <h4 class="singles-icons">
+            <a href="/userProfile/{{_id}}">
+            <button class="btn btn-outline-primary"><i class="fa fa-address-book"></i></button>
+            </a>
+        
+            <a href="/startChat/{{_id}}">
+            <button class="btn btn-outline-info"><i class="fa fa-commenting"></i></button>
+            </a>
+
+            <i class="fa fa-circle red right">OFFLINE</i>
+        </h4>
+        
+        
+    </div>
+</div>
+
+{{/if}}
+<!--  to display each user image: <img src="{{image}}" width="64px"> -->
+{{else}}
+<p>No user found</p>
+{{/each}}
+</div>

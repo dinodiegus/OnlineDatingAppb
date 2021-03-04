@@ -50,7 +50,11 @@ const userSchema = new Schema({
     },
     password: {
         type: String
+    },
+    date: {
+        type: Date,
+        default: Date.now
     }
 
 });
-module.exports = mongoose.model('User',userSchema)
+module.exports = mongoose.model('User',userSchema);
