@@ -1,13 +1,33 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">
-      <img src="" 
-       width="30" height="24">
+    <a class="navbar-brand" href="/">
+      <img src="/img/logoTo2gether2.jpg" 
+       width="80" height="30">
     </a>
     
     <!--<a class="navbar-brand" href="/">Get2Gether</a>-->
-    
+    {{#if newSmile}}
+    <a href="/showSmile/{{newSmile._id}}"><i class="fa fa-smile-o"></i></a>
+    <style>
+      .fa-smile-o {
+        font-size: 35px;
+        /* color: green; */ 
+      }
+    </style>
+    <script>
+        $(document).ready(function(){
+          setInterval(function(){
+            $('.fa-smile-o').attr('style','color:red');
+          },10)
+          setInterval(function(){
+            $('.fa-smile-o').attr('style','color:white');
+          },30)
+        })
+    </script>
+    {{else}}
     <a class="navbar-brand" href="#">{{title}}</a>
+    {{/if}}
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>

@@ -15,7 +15,10 @@ const { allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-acc
 const Message = require('./models/message');
 const User = require('./models/user');
 const Chat = require('./models/chat');
+const Smile = require('./models/smile');
+
 const app = express();
+
 
 // load keys file
 const Keys = require('./config/keys');
@@ -119,10 +122,14 @@ app.get('/profile',requireLogin,(req,res) => {
                if(err){
                    throw err;
                }else{
-                    res.render('profile',{
-                        title: 'Profile',
-                        user:user 
-                 });
+                    Smile.findOne({receiver:req.user._id,receiverReceived:false})
+                    .then((newSmile) => {
+                        res.render('profile',{
+                            title: 'Profile',
+                            user: user,
+                            newSmile:newSmile 
+                        });
+                    })
                }
 
            }) 
@@ -275,10 +282,14 @@ app.get('/singles',requireLogin,(req,res) => {
 app.get('/userProfile/:id',(req,res) => {
     User.findById({_id:req.params.id})
     .then((user) => {
-        res.render('userProfile',{
-            title:'Profile',
-            oneUser: user
-        });
+        Smile.findOne({receiver:req.params.id})
+        .then((smile) => {
+            res.render('userProfile', {
+                title:'Profile',
+                oneUser: user,
+                smile:smile
+            });
+        })
     });
 });
 // START CHAT PROCESS
@@ -464,6 +475,42 @@ app.post('/chat/:id',requireLogin,(req,res) => {
         }
     })
 })
+// GET ROUTE TO SEND SMILE
+app.get('/sendSmile/:id',requireLogin,(req,res) =>{
+    const newSmile = {
+        sender: req.user._id,
+        receiver: req.params.id,
+        senderSent: true
+    }
+    new Smile(newSmile).save((err,smile) => {
+        if (err){
+            throw err;
+        }
+        if (smile) {
+            res.redirect(`/userProfile/${req.params.id}`);
+        }
+    })
+});
+// DELETE SMILE
+app.get('/deleteSmile/:id',requireLogin,(req,res) => {
+    Smile.deleteOne({receiver:req.params.id,sender:req.user._id})
+    .then(() => {
+        res.redirect(`/userProfile/${req.params.id}`);
+    })
+});
+//SHOW SMILE SENDER
+app.get('/showSmile/:id', requireLogin,(req,res) => {
+    Smile.findOne({_id:req.params.id})
+    .populate('sender')
+    .populate('receiver')
+    .then((smile) => {
+        res.render('smile/showSmile',{
+            title:'NewSmile',
+            smile:smile
+        })
+    })
+});
+
 app.get('/logout',(req,res) => {
     User.findById({_id:req.user._id})
     .then((user) => {
