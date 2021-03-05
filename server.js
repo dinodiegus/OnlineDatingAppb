@@ -293,7 +293,7 @@ app.get('/userProfile/:id',(req,res) => {
     });
 });
 // START CHAT PROCESS
-app.get('/startChat/:id',requireLogin,(req,res) =>{
+app.get('/startChat/:id',requireLogin,(req,res) => {
     Chat.findOne({sender:req.params.id,receiver:req.user._id})
     .then((chat) =>{
         if(chat) {
@@ -476,14 +476,14 @@ app.post('/chat/:id',requireLogin,(req,res) => {
     })
 })
 // GET ROUTE TO SEND SMILE
-app.get('/sendSmile/:id',requireLogin,(req,res) =>{
+app.get('/sendSmile/:id',requireLogin,(req,res) => {
     const newSmile = {
         sender: req.user._id,
         receiver: req.params.id,
         senderSent: true
     }
     new Smile(newSmile).save((err,smile) => {
-        if (err){
+        if (err) {
             throw err;
         }
         if (smile) {
